@@ -1,0 +1,45 @@
+/**
+ * @type {import('next').NextConfig}
+ */
+
+const isStaticExport = 'false';
+
+const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: '/', // The source route (in this case, the root path)
+        destination: '/dashboard', // Where to redirect to
+        permanent: false, // Set to `true` for permanent (301) or `false` for temporary (307) redirects
+      },
+    ];
+  },
+  trailingSlash: true,
+  env: {
+    BUILD_STATIC_EXPORT: isStaticExport,
+  },
+  modularizeImports: {
+    '@mui/icons-material': {
+      transform: '@mui/icons-material/{{member}}',
+    },
+    '@mui/material': {
+      transform: '@mui/material/{{member}}',
+    },
+    '@mui/lab': {
+      transform: '@mui/lab/{{member}}',
+    },
+  },
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    });
+
+    return config;
+  },
+  ...(isStaticExport === 'true' && {
+    output: 'export',
+  }),
+};
+
+export default nextConfig;
