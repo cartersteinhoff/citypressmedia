@@ -36,3 +36,6 @@ build
 .eslintcache
 .unimportedrc.json
 tsconfig.tsbuildinfo
+
+
+/src/sections/chapter-leader/
