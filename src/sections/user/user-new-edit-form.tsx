@@ -1,4 +1,4 @@
-'use client'; // Ensure this is a client-side component
+'use client';
 
 import { z as zod } from 'zod';
 import { useMemo } from 'react';
@@ -20,11 +20,9 @@ import { useRouter } from 'src/routes/hooks';
 
 import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
-import { Form, Field } from 'src/components/hook-form'; // Import the Form and Field components
+import { Form, Field } from 'src/components/hook-form';
 
-// ----------------------------------------------------------------------
-
-// Schema validation for the form using Zod
+// Form schema validation using Zod
 export const NewUserSchema = zod.object({
   id: zod.string().optional(), // ID field is optional
   status: zod.string().optional(),
@@ -46,8 +44,6 @@ export const NewUserSchema = zod.object({
 });
 
 export type NewUserSchemaType = zod.infer<typeof NewUserSchema>;
-
-// ----------------------------------------------------------------------
 
 type Props = {
   currentUser?: NewUserSchemaType;
