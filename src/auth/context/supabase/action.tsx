@@ -53,12 +53,28 @@ export const signInWithPassword = async ({
 }: SignInParams): Promise<AuthTokenResponsePassword> => {
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
+  // Handle error case
   if (error) {
     console.error(error);
-    throw error;
+    return {
+      data: {
+        user: null,
+        session: null,
+        weakPassword: null, // Explicitly setting weakPassword to null in case of error
+      },
+      error,
+    };
   }
 
-  return { data, error };
+  // Handle success case
+  return {
+    data: {
+      user: data.user,
+      session: data.session,
+      weakPassword: data.weakPassword,
+    },
+    error: null,
+  };
 };
 
 /** **************************************
@@ -79,32 +95,44 @@ export const signUp = async ({
     },
   });
 
+  // Handle error case
   if (error) {
     console.error(error);
-    throw error;
+    return {
+      data: {
+        user: null,
+        session: null,
+      },
+      error,
+    };
   }
 
   if (!data?.user?.identities?.length) {
     throw new Error('This user already exists');
   }
 
-  return { data, error };
+  // Handle success case
+  return {
+    data: {
+      user: data.user,
+      session: data.session,
+    },
+    error: null,
+  };
 };
 
 /** **************************************
  * Sign out
  *************************************** */
-export const signOut = async (): Promise<{
-  error: AuthError | null;
-}> => {
+export const signOut = async (): Promise<{ error: AuthError | null }> => {
   const { error } = await supabase.auth.signOut();
 
   if (error) {
     console.error(error);
-    throw error;
+    return { error };
   }
 
-  return { error };
+  return { error: null };
 };
 
 /** **************************************
@@ -117,12 +145,20 @@ export const resetPassword = async ({
     redirectTo: `${window.location.origin}${paths.auth.supabase.updatePassword}`,
   });
 
+  // Handle error case
   if (error) {
     console.error(error);
-    throw error;
+    return {
+      data: null,
+      error,
+    };
   }
 
-  return { data, error };
+  // Handle success case
+  return {
+    data: {},
+    error: null,
+  };
 };
 
 /** **************************************
@@ -131,10 +167,22 @@ export const resetPassword = async ({
 export const updatePassword = async ({ password }: UpdatePasswordParams): Promise<UserResponse> => {
   const { data, error } = await supabase.auth.updateUser({ password });
 
+  // Handle error case
   if (error) {
     console.error(error);
-    throw error;
+    return {
+      data: {
+        user: null,
+      },
+      error,
+    };
   }
 
-  return { data, error };
+  // Handle success case
+  return {
+    data: {
+      user: data.user,
+    },
+    error: null,
+  };
 };

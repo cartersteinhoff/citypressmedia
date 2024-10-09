@@ -4,7 +4,7 @@ import type { IDateValue, ISocialLink } from './common';
 
 export type IUserTableFilters = {
   name: string;
-  role: string[];
+  role?: string[];
   status: string;
 };
 
@@ -77,17 +77,23 @@ export type IUserCard = {
 export type IUserItem = {
   id: string;
   name: string;
+  firstName: string; // Added field for first name
+  lastName: string; // Added field for last name
   city: string;
+  state: string;
+  reservedCity: string; // Added field for reserved city
   role: string;
   email: string;
-  state: string;
+  phoneNumber: string;
+  phone: string; // Added field for phone
+  referredByFirstName?: string; // Added field for referred by first name
+  referredByLastName?: string; // Added field for referred by last name
   status: string;
   address: string;
   country: string;
   zipCode: string;
   company: string;
   avatarUrl: string;
-  phoneNumber: string;
   isVerified: boolean;
 };
 

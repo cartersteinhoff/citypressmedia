@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
+
+import { PrismaClient } from '@prisma/client'; // Blank line to separate import groups
 
 const prisma = new PrismaClient();
 
@@ -13,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const updatedLeader = await prisma.chapterLeader.update({
-      where: { id: parseInt(id as string) },
+      where: { id: parseInt(id as string, 10) }, // Added radix 10 for base-10 parsing
       data: updateData,
     });
 

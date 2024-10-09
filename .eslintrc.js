@@ -5,7 +5,14 @@ module.exports = {
   root: true,
   env: { browser: true, es2020: true },
   plugins: ['perfectionist', 'unused-imports', '@typescript-eslint', 'prettier'],
-  extends: ['airbnb', 'airbnb-typescript', 'airbnb/hooks', 'prettier'],
+  extends: [
+    'airbnb',
+    'airbnb-typescript',
+    'airbnb/hooks',
+    'prettier',
+    'next', // Add Next.js plugin
+    'next/core-web-vitals', // Add Next.js Core Web Vitals rules
+  ],
   parserOptions: {
     sourceType: 'module',
     ecmaVersion: 'latest',
@@ -26,6 +33,8 @@ module.exports = {
    */
   rules: {
     // general
+    'react/display-name': 'off', // Disable the display-name rule
+    'react/jsx-key': 'off',
     'no-alert': 0,
     camelcase: 0,
     'no-console': 0,

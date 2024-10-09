@@ -1,5 +1,6 @@
 // /pages/api/chapter-leader/delete.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
+
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();

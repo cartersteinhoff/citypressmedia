@@ -76,14 +76,22 @@ type InputValue = CarouselOptions['slidesToShow'];
 
 function getSize(slidesToShow: InputValue): InputValue {
   if (slidesToShow && typeof slidesToShow === 'object') {
+    // Ensure all values in the object are processed as strings or numbers
     return Object.keys(slidesToShow).reduce<ObjectValue>((acc, key) => {
       const sizeByKey = slidesToShow[key];
-      acc[key] = getValue(sizeByKey);
+
+      // Make sure the value passed to getValue is either a string or a number
+      if (typeof sizeByKey === 'string' || typeof sizeByKey === 'number') {
+        acc[key] = getValue(sizeByKey); // Pass only valid types to getValue
+      } else {
+        throw new Error(`Invalid value type for key ${key}. Only string or number is allowed.`);
+      }
       return acc;
     }, {});
   }
 
-  return getValue(slidesToShow);
+  // If it's not an object, pass it directly to getValue
+  return getValue(slidesToShow as string | number);
 }
 
 function getValue(value: string | number = 1): string {

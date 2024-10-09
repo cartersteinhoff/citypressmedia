@@ -1,6 +1,7 @@
 'use client';
 
 import type { IUserItem, IUserTableFilters } from 'src/types/user';
+
 import { useState, useEffect, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
@@ -63,7 +64,7 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 type DashboardType = keyof typeof paths.dashboard;
 interface DashboardTypeProps {
-  type: DashboardType;
+  type?: DashboardType;
 }
 
 export function UserListView({ type }: DashboardTypeProps) {

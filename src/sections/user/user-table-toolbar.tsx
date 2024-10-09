@@ -4,10 +4,10 @@ import type { UseSetStateReturn } from 'src/hooks/use-set-state';
 import { useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
+import MenuList from '@mui/material/MenuList';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import MenuList from '@mui/material/MenuList'; // Import MenuList
+import InputAdornment from '@mui/material/InputAdornment'; // Import MenuList
 import MenuItem from '@mui/material/MenuItem'; // Import MenuItem
 
 import { Iconify } from 'src/components/iconify';

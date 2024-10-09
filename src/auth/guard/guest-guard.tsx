@@ -18,14 +18,11 @@ type Props = {
 
 export function GuestGuard({ children }: Props) {
   const router = useRouter();
-
   const searchParams = useSearchParams();
-
   const { loading, authenticated } = useAuthContext();
-
   const [isChecking, setIsChecking] = useState<boolean>(true);
 
-  const returnTo = searchParams.get('returnTo') || CONFIG.auth.redirectPath;
+  const returnTo = searchParams?.get('returnTo') || CONFIG.auth.redirectPath; // Added optional chaining
 
   const checkPermissions = async (): Promise<void> => {
     if (loading) {
@@ -42,7 +39,6 @@ export function GuestGuard({ children }: Props) {
 
   useEffect(() => {
     checkPermissions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated, loading]);
 
   if (isChecking) {

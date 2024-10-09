@@ -19,20 +19,18 @@ type Props = {
 
 export function AuthGuard({ children }: Props) {
   const router = useRouter();
-
   const pathname = usePathname();
-
   const searchParams = useSearchParams();
-
   const { authenticated, loading } = useAuthContext();
-
   const [isChecking, setIsChecking] = useState<boolean>(true);
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
+      if (!searchParams) {
+        return ''; // Handle the case when searchParams is null
+      }
       const params = new URLSearchParams(searchParams.toString());
       params.set(name, value);
-
       return params.toString();
     },
     [searchParams]
@@ -54,7 +52,7 @@ export function AuthGuard({ children }: Props) {
         supabase: paths.auth.supabase.signIn,
       }[method];
 
-      const href = `${signInPath}?${createQueryString('returnTo', pathname)}`;
+      const href = `${signInPath}?${createQueryString('returnTo', pathname || '/')}`; // Use a fallback for pathname
 
       router.replace(href);
       return;
@@ -65,7 +63,6 @@ export function AuthGuard({ children }: Props) {
 
   useEffect(() => {
     checkPermissions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated, loading]);
 
   if (isChecking) {

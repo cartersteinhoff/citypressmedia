@@ -1,5 +1,6 @@
 // pages/api/chapter-leaders.js
-import { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
+
 import prisma from '../../lib/prismaClient';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

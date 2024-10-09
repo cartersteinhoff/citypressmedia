@@ -1,10 +1,12 @@
-'use client'; // Ensure this is a client-side component
+'use client';
+
+// Ensure this is a client-side component
 
 import { z as zod } from 'zod';
-import type { IUserItem } from 'src/types/user';
 import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
+
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -18,14 +20,16 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
+import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
-import { Form, Field } from 'src/components/hook-form';
-import { Label } from 'src/components/label'; // Import the Label component
+import { Form, Field } from 'src/components/hook-form'; // Import the Label component
 
 // ----------------------------------------------------------------------
 
 // Updated schema to include reservedCity
 export const NewUserSchema = zod.object({
+  id: zod.string().optional(), // ID field is optional
+  status: zod.string().optional(), 
   firstName: zod.string().min(1, { message: 'First Name is required!' }),
   lastName: zod.string().min(1, { message: 'Last Name is required!' }),
   email: zod
