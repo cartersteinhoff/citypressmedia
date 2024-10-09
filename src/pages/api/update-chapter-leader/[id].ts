@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -8,20 +8,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ message: 'Only PUT requests are allowed' });
   }
 
-  const { id } = req.query; // Chapter leader ID from the query parameters
-  const updateData = req.body; // Data to update
+  const { id } = req.query;
+  const updateData = req.body;
 
   try {
-    // Update the chapter leader in the database using Prisma
     const updatedLeader = await prisma.chapterLeader.update({
-      where: { id: parseInt(id as string) }, // Cast id to string before parsing
+      where: { id: parseInt(id as string) },
       data: updateData,
     });
 
-    // Respond with the updated leader
-    res.status(200).json({ message: 'Chapter leader updated successfully', leader: updatedLeader });
+    return res
+      .status(200)
+      .json({ message: 'Chapter leader updated successfully', leader: updatedLeader });
   } catch (error) {
-    res
+    return res
       .status(500)
       .json({ message: 'Error updating chapter leader', error: (error as Error).message });
   }

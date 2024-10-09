@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -27,12 +27,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(404).json({ message: 'Chapter leader not found' });
     }
 
-    // Return the chapter leader data
-    res.status(200).json(chapterLeader);
+    // Return the chapter leader data and explicitly return to exit the function
+    return res.status(200).json(chapterLeader);
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: 'Error fetching chapter leader', error: (error as Error).message });
+    return res.status(500).json({ message: 'Error fetching chapter leader', error: (error as Error).message });
   }
 }
