@@ -1,6 +1,4 @@
-'use client';
-
-// Ensure this is a client-side component
+'use client'; // Ensure this is a client-side component
 
 import { z as zod } from 'zod';
 import { useMemo } from 'react';
@@ -22,14 +20,14 @@ import { useRouter } from 'src/routes/hooks';
 
 import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
-import { Form, Field } from 'src/components/hook-form'; // Import the Label component
+import { Form, Field } from 'src/components/hook-form'; // Import the Form and Field components
 
 // ----------------------------------------------------------------------
 
-// Updated schema to include reservedCity
+// Schema validation for the form using Zod
 export const NewUserSchema = zod.object({
   id: zod.string().optional(), // ID field is optional
-  status: zod.string().optional(), 
+  status: zod.string().optional(),
   firstName: zod.string().min(1, { message: 'First Name is required!' }),
   lastName: zod.string().min(1, { message: 'Last Name is required!' }),
   email: zod

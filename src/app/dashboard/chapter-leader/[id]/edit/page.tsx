@@ -1,5 +1,4 @@
 import { CONFIG } from 'src/config-global';
-
 import { UserEditView } from 'src/sections/user/view';
 
 // ----------------------------------------------------------------------
@@ -13,8 +12,13 @@ type Props = {
 export default async function Page({ params }: Props) {
   const { id } = params;
 
-  // Fetch user data from the relative API endpoint
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'; // Add the correct site URL in your .env file
+  // Dynamically determine the base URL based on the environment
+  const baseUrl =
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3000' // Development URL
+      : 'https://citypressmedia.com'; // Production URL
+
+  // Fetch user data from the appropriate API endpoint
   const response = await fetch(`${baseUrl}/api/get-single-chapter-leader/${id}`);
   console.log(response);
 
