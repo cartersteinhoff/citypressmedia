@@ -58,14 +58,14 @@ export function AuthCenteredLayout({ sx, children, header }: AuthCenteredLayoutP
             rightArea: (
               <Box display="flex" alignItems="center" gap={{ xs: 1, sm: 1.5 }}>
                 {/* -- Help link -- */}
-                <Link
+                {/* <Link
                   href={paths.faqs}
                   component={RouterLink}
                   color="inherit"
                   sx={{ typography: 'subtitle2' }}
                 >
                   Need help?
-                </Link>
+                </Link> */}
                 {/* -- Settings button -- */}
                 <SettingsButton />
               </Box>
