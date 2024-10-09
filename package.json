@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "next dev -p 8082",
     "start": "next start -p 8082",
-    "build": "next build",
+    "build": "next build && prisma generate",
+    "postinstall": "prisma generate",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
     "fm:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
