@@ -18,11 +18,7 @@ import { signOut as supabaseSignOut } from 'src/auth/context/supabase/action';
 
 // ----------------------------------------------------------------------
 
-const signOut = CONFIG.auth.method === 'supabase' && supabaseSignOut;
-// (CONFIG.auth.method === 'supabase' && supabaseSignOut) ||
-// (CONFIG.auth.method === 'firebase' && firebaseSignOut) ||
-// (CONFIG.auth.method === 'amplify' && amplifySignOut) ||
-jwtSignOut;
+const signOut = supabaseSignOut; // Directly using supabase signOut
 
 type Props = ButtonProps & {
   sx?: SxProps<Theme>;
@@ -34,11 +30,9 @@ export function SignOutButton({ onClose, ...other }: Props) {
 
   const { checkUserSession } = useAuthContext();
 
-  const { logout: signOutAuth0 } = useAuth0();
-
   const handleLogout = useCallback(async () => {
     try {
-      await signOut();
+      await signOut(); // No need for conditions, just call the signOut function
       await checkUserSession?.();
 
       onClose?.();
@@ -48,18 +42,6 @@ export function SignOutButton({ onClose, ...other }: Props) {
       toast.error('Unable to logout!');
     }
   }, [checkUserSession, onClose, router]);
-
-  const handleLogoutAuth0 = useCallback(async () => {
-    try {
-      await signOutAuth0();
-
-      onClose?.();
-      router.refresh();
-    } catch (error) {
-      console.error(error);
-      toast.error('Unable to logout!');
-    }
-  }, [onClose, router, signOutAuth0]);
 
   return (
     <Button fullWidth variant="soft" size="large" color="error" onClick={handleLogout} {...other}>
