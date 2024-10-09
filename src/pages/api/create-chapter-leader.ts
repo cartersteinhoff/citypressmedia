@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -60,11 +60,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     // Respond with the created leader
-    res.status(201).json({ message: 'Chapter leader created successfully', leader: newLeader });
+    return res
+      .status(201)
+      .json({ message: 'Chapter leader created successfully', leader: newLeader });
   } catch (error) {
     console.log(error);
-    res
-      .status(500)
-      .json({ message: 'Error creating chapter leader', error: (error as Error).message });
+    return res.status(500).json({
+      message: 'Error creating chapter leader',
+      error: (error as Error).message,
+    });
   }
 }

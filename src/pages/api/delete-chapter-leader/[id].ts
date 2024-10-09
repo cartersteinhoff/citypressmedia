@@ -1,6 +1,6 @@
 // /pages/api/chapter-leader/delete.ts
-import { PrismaClient } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -23,11 +23,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     // Respond with the deleted leader's data
-    res.status(200).json({ message: 'Chapter leader deleted successfully', leader: deletedLeader });
+    return res
+      .status(200)
+      .json({ message: 'Chapter leader deleted successfully', leader: deletedLeader });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: 'Error deleting chapter leader', error: (error as Error).message });
+    return res.status(500).json({
+      message: 'Error deleting chapter leader',
+      error: (error as Error).message,
+    });
   }
 }

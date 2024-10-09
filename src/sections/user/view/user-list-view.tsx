@@ -21,8 +21,8 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
 
 import { varAlpha } from 'src/theme/styles';
-import { DashboardContent } from 'src/layouts/dashboard';
 import { USER_STATUS_OPTIONS } from 'src/_mock';
+import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
@@ -170,7 +170,7 @@ export function UserListView({ type }: DashboardTypeProps) {
         router.push(selectedPath.edit(id));
       }
     },
-    [router]
+    [router, type] // Add 'type' to the dependency array
   );
 
   const handleFilterStatus = useCallback(
