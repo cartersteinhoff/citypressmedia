@@ -11,7 +11,7 @@ export type ConfigValue = {
   assetsDir: string;
   isStaticExport: boolean;
   auth: {
-    method: 'jwt' | 'amplify' | 'firebase' | 'supabase' | 'auth0';
+    method: 'supabase';
     skip: boolean;
     redirectPath: string;
   };
