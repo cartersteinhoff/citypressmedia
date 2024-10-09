@@ -1,7 +1,7 @@
 'use client'; // Ensure this is a client-side component
 
-import type { IUserItem } from 'src/types/user';
 import { z as zod } from 'zod';
+import type { IUserItem } from 'src/types/user';
 import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, Controller } from 'react-hook-form';
