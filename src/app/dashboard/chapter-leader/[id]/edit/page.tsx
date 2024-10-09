@@ -1,6 +1,4 @@
 import { CONFIG } from 'src/config-global';
-import { _userList } from 'src/_mock/_user';
-
 import { UserEditView } from 'src/sections/user/view';
 
 // ----------------------------------------------------------------------
@@ -11,10 +9,19 @@ type Props = {
   params: { id: string };
 };
 
-export default function Page({ params }: Props) {
+export default async function Page({ params }: Props) {
   const { id } = params;
 
-  const currentUser = _userList.find((user) => user.id === id);
+  // Fetch user data from the relative API endpoint
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'; // Add the correct site URL in your .env file
+  const response = await fetch(`${baseUrl}/api/get-single-chapter-leader/${id}`);
+  console.log(response);
+
+  if (!response.ok) {
+    return <p>Error fetching user data</p>;
+  }
+
+  const currentUser = await response.json();
 
   return <UserEditView user={currentUser} />;
 }
@@ -22,8 +29,8 @@ export default function Page({ params }: Props) {
 // ----------------------------------------------------------------------
 
 /**
- * [1] Default
- * Remove [1] and [2] if not using [2]
+ * [1] Dynamic page generation
+ * Depending on static export configuration
  */
 const dynamic = CONFIG.isStaticExport ? 'auto' : 'force-dynamic';
 
@@ -31,11 +38,20 @@ export { dynamic };
 
 /**
  * [2] Static exports
- * https://nextjs.org/docs/app/building-your-application/deploying/static-exports
+ * Adjusted to fetch the IDs of users dynamically for static exports
  */
 export async function generateStaticParams() {
   if (CONFIG.isStaticExport) {
-    return _userList.map((user) => ({ id: user.id }));
+    const response = await fetch(`/api/get-all-chapter-leaders`);
+
+    if (!response.ok) {
+      return [];
+    }
+
+    const userList = await response.json();
+
+    return userList.map((user: { id: string }) => ({ id: user.id }));
   }
+
   return [];
 }

@@ -17,19 +17,20 @@ type Props = {
 };
 
 export function UserEditView({ user: currentUser }: Props) {
+  console.log(currentUser);
   return (
     <DashboardContent>
       <CustomBreadcrumbs
         heading="Edit"
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'User', href: paths.dashboard.user.root },
+          { name: 'User', href: paths.dashboard.chapterLeader.root },
           { name: currentUser?.name },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
 
-      <UserNewEditForm currentUser={currentUser} />
+      <UserNewEditForm currentUser={currentUser} edit />
     </DashboardContent>
   );
 }

@@ -1,7 +1,6 @@
 'use client';
 
 import type { IUserItem, IUserTableFilters } from 'src/types/user';
-
 import { useState, useEffect, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
@@ -23,7 +22,7 @@ import { useSetState } from 'src/hooks/use-set-state';
 
 import { varAlpha } from 'src/theme/styles';
 import { DashboardContent } from 'src/layouts/dashboard';
-import { _roles, USER_STATUS_OPTIONS } from 'src/_mock';
+import { USER_STATUS_OPTIONS } from 'src/_mock';
 
 import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
@@ -52,9 +51,7 @@ import { UserTableFiltersResult } from '../user-table-filters-result';
 const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: 'Name', label: 'Name' },
-  // { id: 'lastName', label: 'Last Name' },
-  // { id: 'email', label: 'Email', width: 180 },
+  { id: 'Name', label: 'Name', width: 120 },
   { id: 'phoneNumber', label: 'Phone Number', width: 180 },
   { id: 'reservedCity', label: 'Reserved City', width: 180 },
   { id: 'city', label: 'City', width: 180 },
@@ -66,7 +63,7 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 type DashboardType = keyof typeof paths.dashboard;
 interface DashboardTypeProps {
-  type: DashboardType; // Restrict the type to these specific strings
+  type: DashboardType;
 }
 
 export function UserListView({ type }: DashboardTypeProps) {
@@ -97,7 +94,7 @@ export function UserListView({ type }: DashboardTypeProps) {
   const table = useTable();
   const router = useRouter();
   const confirm = useBoolean();
-  const filters = useSetState<IUserTableFilters>({ name: '', role: [], status: 'all' });
+  const filters = useSetState<IUserTableFilters>({ name: '', status: 'all' });
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -107,31 +104,59 @@ export function UserListView({ type }: DashboardTypeProps) {
 
   const dataInPage = rowInPage(dataFiltered, table.page, table.rowsPerPage);
 
-  const canReset =
-    !!filters.state.name || filters.state.role.length > 0 || filters.state.status !== 'all';
+  const canReset = !!filters.state.name || filters.state.status !== 'all';
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
   const handleDeleteRow = useCallback(
-    (id: string) => {
-      const deleteRow = tableData.filter((row) => row.id !== id);
+    async (id: string) => {
+      try {
+        const res = await fetch(`/api/delete-chapter-leader/${id}`, {
+          method: 'DELETE',
+        });
 
-      toast.success('Delete success!');
-      setTableData(deleteRow);
-      table.onUpdatePageDeleteRow(dataInPage.length);
+        if (!res.ok) {
+          throw new Error('Failed to delete chapter leader');
+        }
+
+        const deleteRow = tableData.filter((row) => row.id !== id);
+        toast.success('Delete success!');
+        setTableData(deleteRow);
+        table.onUpdatePageDeleteRow(dataInPage.length);
+      } catch (error) {
+        toast.error('Failed to delete');
+        console.error('Error deleting chapter leader:', error);
+      }
     },
     [dataInPage.length, table, tableData]
   );
 
-  const handleDeleteRows = useCallback(() => {
-    const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
+  const handleDeleteRows = useCallback(async () => {
+    try {
+      const res = await Promise.all(
+        table.selected.map((id) =>
+          fetch(`/api/chapter-leader/delete?id=${id}`, {
+            method: 'DELETE',
+          })
+        )
+      );
 
-    toast.success('Delete success!');
-    setTableData(deleteRows);
-    table.onUpdatePageDeleteRows({
-      totalRowsInPage: dataInPage.length,
-      totalRowsFiltered: dataFiltered.length,
-    });
+      if (res.some((r) => !r.ok)) {
+        throw new Error('Failed to delete some chapter leaders');
+      }
+
+      const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
+
+      toast.success('Delete success!');
+      setTableData(deleteRows);
+      table.onUpdatePageDeleteRows({
+        totalRowsInPage: dataInPage.length,
+        totalRowsFiltered: dataFiltered.length,
+      });
+    } catch (error) {
+      toast.error('Failed to delete selected');
+      console.error('Error deleting selected chapter leaders:', error);
+    }
   }, [dataFiltered.length, dataInPage.length, table, tableData]);
 
   const handleEditRow = useCallback(
@@ -220,7 +245,7 @@ export function UserListView({ type }: DashboardTypeProps) {
           <UserTableToolbar
             filters={filters}
             onResetPage={table.onResetPage}
-            options={{ roles: _roles }}
+            // Removed roles from the options prop
           />
 
           {canReset && (
