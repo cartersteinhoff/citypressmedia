@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const updateData = req.body;
 
   try {
-    const updatedLeader = await prisma.chapterLeader.update({
+    const updatedLeader = await prisma.chapter_leaders.update({
       where: { id: parseInt(id as string, 10) }, // Added radix 10 for base-10 parsing
       data: updateData,
     });

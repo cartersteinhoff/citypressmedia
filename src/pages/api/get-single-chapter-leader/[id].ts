@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     // Fetch the chapter leader using Prisma
-    const chapterLeader = await prisma.chapterLeader.findUnique({
+    const chapterLeader = await prisma.chapter_leaders.findUnique({
       where: { id: Number(id) },
     });
 

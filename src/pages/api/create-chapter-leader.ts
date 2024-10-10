@@ -43,7 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     // Create a new chapter leader in the database using Prisma
-    const newLeader = await prisma.chapterLeader.create({
+    const newLeader = await prisma.chapter_leaders.create({
       data: {
         firstName,
         lastName,

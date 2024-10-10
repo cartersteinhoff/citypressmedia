@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     // Delete the chapter leader using Prisma
-    const deletedLeader = await prisma.chapterLeader.delete({
+    const deletedLeader = await prisma.chapter_leaders.delete({
       where: { id: Number(id) },
     });
 
