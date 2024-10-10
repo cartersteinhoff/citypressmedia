@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import type { Breakpoint } from '@mui/material/styles';
 import type { NavSectionProps } from 'src/components/nav-section';
 
@@ -6,7 +8,7 @@ import { useTheme } from '@mui/material/styles';
 
 import { varAlpha, hideScrollY } from 'src/theme/styles';
 
-import { Logo } from 'src/components/logo';
+// import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';
 import { NavSectionMini, NavSectionVertical } from 'src/components/nav-section';
 
@@ -40,7 +42,7 @@ export function NavVertical({
     <>
       {slots?.topArea ?? (
         <Box sx={{ pl: 3.5, pt: 2.5, pb: 1 }}>
-          <Logo />
+          <Image src="/cpm-logo.png" alt="City Press Media Logo" width={225} height={140} />
         </Box>
       )}
 
@@ -56,7 +58,7 @@ export function NavVertical({
     <>
       {slots?.topArea ?? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 2.5 }}>
-          <Logo />
+          <Image src="/cpm-logo.png" alt="City Press Media Logo" width={225} height={140} />
         </Box>
       )}
 
