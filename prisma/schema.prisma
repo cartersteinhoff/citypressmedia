@@ -21,7 +21,7 @@ model chapter_leaders {
   phone                  String?  @unique
   address1               String?
   address2               String?
-  city                   String? 
+  city                   String?
   state                  String?
   zip                    String?
   reserved_cities        String[]
@@ -36,5 +36,5 @@ model chapter_leaders {
 enum Title {
   chapter_leader
   state_director
-  regional_leader 
+  regional_leader
 }

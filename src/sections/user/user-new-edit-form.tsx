@@ -253,10 +253,10 @@ export function UserNewEditForm({ currentUser, edit = false }: Props) {
                       label="Title"
                       multiple
                       value={field.value || []}
-                      onChange={(event) => field.onChange(event.target.value)}
+                      onChange={(event) => field.onChange(event.target.value as string[])} // Fix applied here
                       renderValue={(selected) =>
                         titleOptions
-                          .filter((option) => selected.includes(option.value))
+                          .filter((option) => (selected as string[]).includes(option.value))
                           .map((option) => option.label)
                           .join(', ')
                       }
