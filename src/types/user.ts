@@ -77,24 +77,24 @@ export type IUserCard = {
 export type IUserItem = {
   id: string;
   name: string;
-  firstName: string; // Added field for first name
-  lastName: string; // Added field for last name
+  first_name: string; // Added field for first name
+  last_name: string; // Added field for last name
   city: string;
   state: string;
-  reservedCity: string; // Added field for reserved city
+  reserved_cities: string; // Added field for reserved city
   role: string;
   email: string;
-  phoneNumber: string;
+  phone_number: string; // Changed to snake_case
   phone: string; // Added field for phone
-  referredByFirstName?: string; // Added field for referred by first name
-  referredByLastName?: string; // Added field for referred by last name
+  referred_by_first_name?: string; // Changed to snake_case
+  referred_by_last_name?: string; // Changed to snake_case
   status: string;
   address: string;
   country: string;
-  zipCode: string;
+  zip_code: string; // Changed to snake_case
   company: string;
-  avatarUrl: string;
-  isVerified: boolean;
+  avatar_url: string; // Changed to snake_case
+  is_verified: boolean; // Changed to snake_case
 };
 
 export type IUserAccount = {

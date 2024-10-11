@@ -147,7 +147,7 @@ export function DashboardLayout({ sx, children, header, data }: DashboardLayoutP
                 {/* -- Searchbar -- */}
                 <Searchbar data={navData} />
                 {/* -- Language popover -- */}
-                <LanguagePopover data={allLangs} />
+                {/* <LanguagePopover data={allLangs} /> */}
                 {/* -- Notifications popover -- */}
                 {/* <NotificationsDrawer data={_notifications} /> */}
                 {/* -- Contacts popover -- */}

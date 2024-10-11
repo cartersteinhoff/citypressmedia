@@ -1,6 +1,7 @@
 'use client';
 
 import type { BoxProps } from '@mui/material/Box';
+import Image from 'next/image';
 
 import Box from '@mui/material/Box';
 import Portal from '@mui/material/Portal';
@@ -32,7 +33,8 @@ export function SplashScreen({ portal = true, sx, ...other }: Props) {
         }}
         {...other}
       >
-        <AnimateLogo1 />
+        <Image src="/cpm-logo.png" alt="City Press Media Logo" width={250} height={165} />
+        {/* <AnimateLogo1 /> */}
       </Box>
     </Box>
   );

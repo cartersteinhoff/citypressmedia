@@ -38,15 +38,15 @@ export function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRo
 
   // Use the fields from the IUserItem (Chapter Leader) model
   const {
-    firstName,
-    lastName,
+    first_name,
+    last_name,
     email,
     phone, // Assumed to be phone number
-    reservedCity,
+    reserved_cities,
     city,
     state,
-    referredByFirstName,
-    referredByLastName,
+    referred_by_first_name,
+    referred_by_last_name,
   } = row;
 
   return (
@@ -59,10 +59,10 @@ export function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRo
         {/* Display the full name (first and last) */}
         <TableCell>
           <Stack spacing={2} direction="row" alignItems="center">
-            <Avatar alt={`${firstName} ${lastName}`} />
+            {/* <Avatar alt={`${first_name} ${last_name}`} /> */}
             <Stack sx={{ typography: 'body2', flex: '1 1 auto', alignItems: 'flex-start' }}>
               <Link color="inherit" onClick={onEditRow} sx={{ cursor: 'pointer' }}>
-                {`${firstName} ${lastName}`}
+                {`${first_name} ${last_name}`}
               </Link>
               <Box component="span" sx={{ color: 'text.disabled' }}>
                 {email}
@@ -77,16 +77,16 @@ export function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRo
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{phone}</TableCell>
 
         {/* Display reserved city */}
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{reservedCity}</TableCell>
+        {/* <TableCell sx={{ whiteSpace: 'nowrap', fontSize: '10px' }}>{reserved_cities}</TableCell> */}
 
         {/* Display city and state */}
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{city}</TableCell>
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{state}</TableCell>
 
         {/* Display the referral details */}
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>
-          {`${referredByFirstName} ${referredByLastName}`}
-        </TableCell>
+        {/* <TableCell sx={{ whiteSpace: 'nowrap' }}>
+          {`${referred_by_first_name} ${referred_by_last_name}`}
+        </TableCell> */}
 
         {/* Actions: Quick Edit and More Options */}
         <TableCell>
