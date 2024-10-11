@@ -152,7 +152,7 @@ export function UserNewEditForm({ currentUser, edit = false }: Props) {
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'center',
+        // justifyContent: 'center',
         alignItems: 'center',
         // minHeight: '100vh', // Ensure it takes full height
       }}
