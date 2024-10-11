@@ -32,17 +32,10 @@ export const UserQuickEditSchema = zod.object({
     .min(1, { message: 'Email is required!' })
     .email({ message: 'Email must be a valid email address!' }),
   phoneNumber: schemaHelper.phoneNumber({ isValidPhoneNumber }),
-  country: schemaHelper.objectOrNull<string | null>({
-    message: { required_error: 'Country is required!' },
-  }),
   state: zod.string().min(1, { message: 'State is required!' }),
   city: zod.string().min(1, { message: 'City is required!' }),
-  address: zod.string().min(1, { message: 'Address is required!' }),
-  zipCode: zod.string().min(1, { message: 'Zip code is required!' }),
-  company: zod.string().min(1, { message: 'Company is required!' }),
-  role: zod.string().min(1, { message: 'Role is required!' }),
-  // Not required
-  status: zod.string(),
+  address1: zod.string().min(1, { message: 'Address is required!' }),
+  zip_code: zod.string().min(1, { message: 'Zip code is required!' }),
 });
 
 // ----------------------------------------------------------------------
@@ -58,15 +51,11 @@ export function UserQuickEditForm({ currentUser, open, onClose }: Props) {
     () => ({
       name: currentUser?.name || '',
       email: currentUser?.email || '',
-      phoneNumber: currentUser?.phoneNumber || '',
-      address: currentUser?.address || '',
-      country: currentUser?.country || '',
+      phone_number: currentUser?.phone_number || '',
+      address1: currentUser?.address1 || '',
       state: currentUser?.state || '',
       city: currentUser?.city || '',
-      zipCode: currentUser?.zipCode || '',
-      status: currentUser?.status,
-      company: currentUser?.company || '',
-      role: currentUser?.role || '',
+      zip_code: currentUser?.zip_code || '',
     }),
     [currentUser]
   );
@@ -126,33 +115,15 @@ export function UserQuickEditForm({ currentUser, open, onClose }: Props) {
             display="grid"
             gridTemplateColumns={{ xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' }}
           >
-            <Field.Select name="status" label="Status">
-              {USER_STATUS_OPTIONS.map((status) => (
-                <MenuItem key={status.value} value={status.value}>
-                  {status.label}
-                </MenuItem>
-              ))}
-            </Field.Select>
-
             <Box sx={{ display: { xs: 'none', sm: 'block' } }} />
 
             <Field.Text name="name" label="Full name" />
             <Field.Text name="email" label="Email address" />
-            <Field.Phone name="phoneNumber" label="Phone number" />
-
-            <Field.CountrySelect
-              fullWidth
-              name="country"
-              label="Country"
-              placeholder="Choose a country"
-            />
-
+            <Field.Phone name="phone_number" label="Phone number" />
             <Field.Text name="state" label="State/region" />
             <Field.Text name="city" label="City" />
-            <Field.Text name="address" label="Address" />
-            <Field.Text name="zipCode" label="Zip/code" />
-            <Field.Text name="company" label="Company" />
-            <Field.Text name="role" label="Role" />
+            <Field.Text name="address1" label="Address" />
+            <Field.Text name="zip_code" label="Zip/code" />
           </Box>
         </DialogContent>
 
