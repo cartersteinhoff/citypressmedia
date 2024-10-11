@@ -263,7 +263,7 @@ export function UserNewEditForm({ currentUser, edit = false }: Props) {
                     >
                       {titleOptions.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
-                          <Checkbox checked={field.value.includes(option.value)} />
+                          <Checkbox checked={(field.value as string[]).includes(option.value)} /> {/* Fix applied here */}
                           <ListItemText primary={option.label} />
                         </MenuItem>
                       ))}
