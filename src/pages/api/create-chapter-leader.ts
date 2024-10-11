@@ -10,30 +10,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const {
-    firstName,
-    lastName,
+    first_name,
+    last_name,
     email,
     phone,
     city,
-    reservedCity, // New field for reserved city
+    reserved_cities, // New field for reserved city
     state,
     address1, // Required
     address2, // Optional
     zip, // Required
-    referredByFirstName, // Optional
-    referredByLastName, // Optional
+    referred_by_first_name,
+    referred_by_last_name,
   } = req.body;
 
   console.log(req.body);
 
   // Validate required fields
   if (
-    !firstName ||
-    !lastName ||
+    !first_name ||
+    !last_name ||
     !email ||
     !phone ||
     !city ||
-    !reservedCity ||
+    !reserved_cities ||
     !state ||
     !address1 ||
     !zip
@@ -45,18 +45,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Create a new chapter leader in the database using Prisma
     const newLeader = await prisma.chapter_leaders.create({
       data: {
-        firstName,
-        lastName,
+        first_name,
+        last_name,
         email,
         phone,
         city,
-        reservedCity, // Save the reserved city in the database
+        reserved_cities, // Save the reserved city in the database
         state,
         address1, // Required
         address2: address2 || null, // Handle optional fields
         zip, // Required
-        referredByFirstName: referredByFirstName || null,
-        referredByLastName: referredByLastName || null,
+        referred_by_first_name: referred_by_first_name || null,
+        referred_by_last_name: referred_by_last_name || null,
       },
     });
 

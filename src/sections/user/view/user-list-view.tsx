@@ -52,12 +52,10 @@ import { UserTableFiltersResult } from '../user-table-filters-result';
 const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: 'Name', label: 'Name', width: 120 },
-  { id: 'phoneNumber', label: 'Phone Number', width: 180 },
-  // { id: 'reservedCity', label: 'Reserved City', width: 180 },
-  { id: 'city', label: 'City', width: 180 },
-  { id: 'state', label: 'State', width: 180 },
-  // { id: 'referredBy', label: 'Referred By', width: 180 },
+  { id: 'Name', label: 'Name', minWidth: 150, maxWidth: 300 }, // Use min/max width for email column
+  { id: 'phoneNumber', label: 'Phone Number', minWidth: 150, maxWidth: 200 },
+  { id: 'city', label: 'City', minWidth: 150, maxWidth: 200 },
+  { id: 'state', label: 'State', minWidth: 150, maxWidth: 200 },
   { id: '', width: 88 }, // For actions like edit/delete
 ];
 
@@ -384,7 +382,7 @@ function applyFilter({ inputData, comparator, filters }: ApplyFilterProps) {
 
   if (name) {
     inputData = inputData.filter((user) =>
-      user.firstName.toLowerCase().includes(name.toLowerCase())
+      user.first_name.toLowerCase().includes(name.toLowerCase())
     );
   }
 

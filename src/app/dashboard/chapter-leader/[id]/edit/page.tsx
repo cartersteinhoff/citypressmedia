@@ -15,10 +15,11 @@ export default async function Page({ params }: Props) {
   // Dynamically determine the base URL based on the environment
   const baseUrl =
     process.env.NODE_ENV === 'development'
-      ? 'http://localhost:3000' // Development URL
+      ? 'http://localhost:8082' // Development URL
       : 'https://citypressmedia.com'; // Production URL
 
   // Fetch user data from the appropriate API endpoint
+  console.log(`${baseUrl}/api/get-single-chapter-leader/${id}`);
   const response = await fetch(`${baseUrl}/api/get-single-chapter-leader/${id}`);
   console.log(response);
 

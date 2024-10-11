@@ -57,7 +57,9 @@ export function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRo
         </TableCell>
 
         {/* Display the full name (first and last) */}
-        <TableCell>
+        <TableCell
+          sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 300 }}
+        >
           <Stack spacing={2} direction="row" alignItems="center">
             {/* <Avatar alt={`${first_name} ${last_name}`} /> */}
             <Stack sx={{ typography: 'body2', flex: '1 1 auto', alignItems: 'flex-start' }}>

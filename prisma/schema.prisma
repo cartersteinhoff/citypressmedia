@@ -25,7 +25,7 @@ model chapter_leaders {
   state                  String?
   zip                    String?
   reserved_cities        String[]
-  reserved_state         String[]
+  reserved_states        String[]
   referred_by_first_name String?
   referred_by_last_name  String?
   title                  Title[]  @default([chapter_leader])

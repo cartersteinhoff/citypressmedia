@@ -9,6 +9,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ message: 'Only PUT requests are allowed' });
   }
 
+  console.log(req.body);
+
   const { id } = req.query;
   const updateData = req.body;
 
