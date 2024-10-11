@@ -154,7 +154,7 @@ export function UserNewEditForm({ currentUser, edit = false }: Props) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: '100vh', // Ensure it takes full height
+        // minHeight: '100vh', // Ensure it takes full height
       }}
     >
       <Form methods={methods} onSubmit={onSubmit}>
