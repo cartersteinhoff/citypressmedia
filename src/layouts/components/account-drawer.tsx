@@ -69,28 +69,12 @@ export function AccountDrawer({ data = [], sx, ...other }: AccountDrawerProps) {
     [handleCloseDrawer, router]
   );
 
-  const renderAvatar = (
-    <AnimateAvatar
-      width={96}
-      slotProps={{
-        avatar: { src: user?.photoURL, alt: user?.displayName },
-        overlay: {
-          border: 2,
-          spacing: 3,
-          color: `linear-gradient(135deg, ${varAlpha(theme.vars.palette.primary.mainChannel, 0)} 25%, ${theme.vars.palette.primary.main} 100%)`,
-        },
-      }}
-    >
-      {user?.displayName?.charAt(0).toUpperCase()}
-    </AnimateAvatar>
-  );
-
   return (
     <>
       <AccountButton
         onClick={handleOpenDrawer}
-        photoURL={user?.photoURL}
-        displayName={user?.displayName}
+        // photoURL={user?.photoURL}
+        // displayName={user?.displayName}
         sx={sx}
         {...other}
       />
@@ -108,7 +92,7 @@ export function AccountDrawer({ data = [], sx, ...other }: AccountDrawerProps) {
         >
           <Iconify icon="mingcute:close-line" />
         </IconButton>
-
+        {/* 
         <Scrollbar>
           <Stack alignItems="center" sx={{ pt: 8 }}>
             {renderAvatar}
@@ -191,9 +175,9 @@ export function AccountDrawer({ data = [], sx, ...other }: AccountDrawerProps) {
           <Box sx={{ px: 2.5, py: 3 }}>
             <UpgradeBlock />
           </Box>
-        </Scrollbar>
+        </Scrollbar> */}
 
-        <Box sx={{ p: 2.5 }}>
+        <Box sx={{ p: 2.5, pt: 8 }}>
           <SignOutButton onClose={handleCloseDrawer} />
         </Box>
       </Drawer>

@@ -13,8 +13,8 @@ import { varHover, AnimateAvatar } from 'src/components/animate';
 // ----------------------------------------------------------------------
 
 export type AccountButtonProps = IconButtonProps & {
-  photoURL: string;
-  displayName: string;
+  photoURL?: string;
+  displayName?: string;
 };
 
 export function AccountButton({ photoURL, displayName, sx, ...other }: AccountButtonProps) {

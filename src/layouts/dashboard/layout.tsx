@@ -28,6 +28,8 @@ import { StyledDivider, useNavColorVars } from './styles';
 import { SettingsButton } from '../components/settings-button';
 import { LanguagePopover } from '../components/language-popover';
 import { navData as dashboardNavData } from '../config-nav-dashboard';
+import { AccountDrawer } from '../components/account-drawer';
+import { _account } from '../config-nav-account';
 
 // ----------------------------------------------------------------------
 
@@ -155,7 +157,7 @@ export function DashboardLayout({ sx, children, header, data }: DashboardLayoutP
                 {/* -- Settings button -- */}
                 <SettingsButton />
                 {/* -- Account drawer -- */}
-                {/* <AccountDrawer data={_account} /> */}
+                <AccountDrawer data={_account} />
               </Box>
             ),
           }}
