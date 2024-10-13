@@ -52,11 +52,19 @@ import { UserTableFiltersResult } from '../user-table-filters-result';
 const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: 'Name', label: 'Name', minWidth: 150, maxWidth: 300 }, // Use min/max width for email column
+  { id: 'first_name', label: 'Name', minWidth: 150, maxWidth: 300 }, // Use min/max width for email column
   { id: 'phoneNumber', label: 'Phone Number', minWidth: 150, maxWidth: 200 },
   { id: 'city', label: 'City', minWidth: 150, maxWidth: 200 },
   { id: 'state', label: 'State', minWidth: 150, maxWidth: 200 },
   { id: '', width: 88 }, // For actions like edit/delete
+];
+
+const columns = [
+  { value: 'first_name', label: 'First Name' },
+  { value: 'last_name', label: 'Last Name' },
+  { value: 'email', label: 'Email' },
+  { value: 'city', label: 'City' },
+  { value: 'state', label: 'State' },
 ];
 
 // ----------------------------------------------------------------------
@@ -93,7 +101,11 @@ export function UserListView({ type }: DashboardTypeProps) {
   const table = useTable();
   const router = useRouter();
   const confirm = useBoolean();
-  const filters = useSetState<IUserTableFilters>({ name: '', status: 'all' });
+  const filters = useSetState<IUserTableFilters>({
+    name: '',
+    status: 'all',
+    selectedColumn: 'first_name', // Default column to filter by
+  });
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -244,6 +256,7 @@ export function UserListView({ type }: DashboardTypeProps) {
           <UserTableToolbar
             filters={filters}
             onResetPage={table.onResetPage}
+            columns={columns}
             // Removed roles from the options prop
           />
 
@@ -368,27 +381,30 @@ type ApplyFilterProps = {
 };
 
 function applyFilter({ inputData, comparator, filters }: ApplyFilterProps) {
-  const { name, status } = filters;
+  const { name, selectedColumn, status } = filters;
 
-  const stabilizedThis = inputData.map((el, index) => [el, index] as const);
+  let filteredData = inputData;
 
+  // Apply filtering dynamically based on the selected column
+  if (name && selectedColumn) {
+    filteredData = filteredData.filter((user) => {
+      const fieldValue = user[selectedColumn]?.toString().toLowerCase();
+      return fieldValue?.includes(name.toLowerCase());
+    });
+  }
+
+  // Filter by status if needed
+  if (status !== 'all') {
+    filteredData = filteredData.filter((user) => user.status === status);
+  }
+
+  // Apply sorting
+  const stabilizedThis = filteredData.map((el, index) => [el, index] as const);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
     return a[1] - b[1];
   });
 
-  inputData = stabilizedThis.map((el) => el[0]);
-
-  if (name) {
-    inputData = inputData.filter((user) =>
-      user.first_name.toLowerCase().includes(name.toLowerCase())
-    );
-  }
-
-  if (status !== 'all') {
-    inputData = inputData.filter((user) => user.status === status);
-  }
-
-  return inputData;
+  return stabilizedThis.map((el) => el[0]);
 }

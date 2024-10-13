@@ -1,4 +1,5 @@
-import { AuthSplitLayout } from 'src/layouts/auth-split';
+// import { AuthSplitLayout } from 'src/layouts/auth-split';
+import { AuthCenteredLayout } from 'src/layouts/auth-centered';
 
 import { GuestGuard } from 'src/auth/guard';
 
@@ -11,7 +12,8 @@ type Props = {
 export default function Layout({ children }: Props) {
   return (
     <GuestGuard>
-      <AuthSplitLayout section={{ title: 'Hi, Welcome back' }}>{children}</AuthSplitLayout>
+      {/* <AuthSplitLayout section={{ title: 'Hi, Welcome back' }}>{children}</AuthSplitLayout> */}
+      <AuthCenteredLayout>{children}</AuthCenteredLayout>
     </GuestGuard>
   );
 }

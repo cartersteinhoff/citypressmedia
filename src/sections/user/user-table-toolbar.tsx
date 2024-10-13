@@ -4,11 +4,10 @@ import type { UseSetStateReturn } from 'src/hooks/use-set-state';
 import { useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
-import MenuList from '@mui/material/MenuList';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment'; // Import MenuList
-import MenuItem from '@mui/material/MenuItem'; // Import MenuItem
+import InputAdornment from '@mui/material/InputAdornment';
+import MenuItem from '@mui/material/MenuItem';
 
 import { Iconify } from 'src/components/iconify';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
@@ -18,15 +17,24 @@ import { usePopover, CustomPopover } from 'src/components/custom-popover';
 type Props = {
   onResetPage: () => void;
   filters: UseSetStateReturn<IUserTableFilters>;
+  columns: { label: string; value: string }[]; // List of available columns to filter by
 };
 
-export function UserTableToolbar({ filters, onResetPage }: Props) {
+export function UserTableToolbar({ filters, onResetPage, columns }: Props) {
   const popover = usePopover();
 
   const handleFilterName = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       onResetPage();
       filters.setState({ name: event.target.value });
+    },
+    [filters, onResetPage]
+  );
+
+  const handleColumnChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      onResetPage();
+      filters.setState({ selectedColumn: event.target.value }); // Update state with selected column
     },
     [filters, onResetPage]
   );
@@ -40,6 +48,22 @@ export function UserTableToolbar({ filters, onResetPage }: Props) {
         sx={{ p: 2.5, pr: { xs: 2.5, md: 1 } }}
       >
         <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }}>
+          {/* Column Selection Dropdown */}
+          <TextField
+            select
+            label="Filter by"
+            value={filters.state.selectedColumn || ''} // Track selected column
+            onChange={handleColumnChange}
+            sx={{ minWidth: 180 }}
+          >
+            {columns.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          {/* Filter Text Field */}
           <TextField
             fullWidth
             value={filters.state.name}
@@ -66,34 +90,7 @@ export function UserTableToolbar({ filters, onResetPage }: Props) {
         onClose={popover.onClose}
         slotProps={{ arrow: { placement: 'right-top' } }}
       >
-        <MenuList>
-          <MenuItem
-            onClick={() => {
-              popover.onClose();
-            }}
-          >
-            <Iconify icon="solar:printer-minimalistic-bold" />
-            Print
-          </MenuItem>
-
-          <MenuItem
-            onClick={() => {
-              popover.onClose();
-            }}
-          >
-            <Iconify icon="solar:import-bold" />
-            Import
-          </MenuItem>
-
-          <MenuItem
-            onClick={() => {
-              popover.onClose();
-            }}
-          >
-            <Iconify icon="solar:export-bold" />
-            Export
-          </MenuItem>
-        </MenuList>
+        {/* Popover Menu (Optional Actions) */}
       </CustomPopover>
     </>
   );

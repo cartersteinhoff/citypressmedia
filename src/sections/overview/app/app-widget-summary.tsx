@@ -15,8 +15,9 @@ import { Chart, useChart } from 'src/components/chart';
 type Props = CardProps & {
   title: string;
   total: number;
-  percent: number;
-  chart: {
+  percent?: number; // Make percent optional
+  chart?: {
+    // Make chart optional
     colors?: string[];
     categories: string[];
     series: number[];
@@ -27,21 +28,21 @@ type Props = CardProps & {
 export function AppWidgetSummary({ title, percent, total, chart, sx, ...other }: Props) {
   const theme = useTheme();
 
-  const chartColors = chart.colors ?? [theme.palette.primary.main];
+  const chartColors = chart?.colors ?? [theme.palette.primary.main];
 
   const chartOptions = useChart({
     chart: { sparkline: { enabled: true } },
     colors: chartColors,
     stroke: { width: 0 },
-    xaxis: { categories: chart.categories },
+    xaxis: { categories: chart?.categories ?? [] },
     tooltip: {
       y: { formatter: (value: number) => fNumber(value), title: { formatter: () => '' } },
     },
     plotOptions: { bar: { borderRadius: 1.5, columnWidth: '64%' } },
-    ...chart.options,
+    ...chart?.options,
   });
 
-  const renderTrending = (
+  const renderTrending = percent !== undefined && (
     <Box sx={{ gap: 0.5, display: 'flex', alignItems: 'center' }}>
       <Iconify
         width={24}
@@ -79,13 +80,15 @@ export function AppWidgetSummary({ title, percent, total, chart, sx, ...other }:
         {renderTrending}
       </Box>
 
-      <Chart
-        type="bar"
-        series={[{ data: chart.series }]}
-        options={chartOptions}
-        width={60}
-        height={40}
-      />
+      {chart && ( // Conditionally render the chart if it's provided
+        <Chart
+          type="bar"
+          series={[{ data: chart.series }]}
+          options={chartOptions}
+          width={60}
+          height={40}
+        />
+      )}
     </Card>
   );
 }

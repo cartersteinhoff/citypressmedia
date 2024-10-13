@@ -35,7 +35,7 @@ import { Form, Field } from 'src/components/hook-form';
 const titleOptions = [
   { label: 'Chapter Leader', value: 'chapter_leader' },
   { label: 'State Director', value: 'state_director' },
-  { label: 'Regional Leader', value: 'regional_leader' },
+  { label: 'Regional Director', value: 'regional_director' },
 ];
 
 // Form schema validation using Zod
@@ -61,7 +61,7 @@ export const NewUserSchema = zod.object({
     .array(zod.string())
     .min(1, { message: 'At least one Reserved State is required!' }), // Updated to array validation
   title: zod
-    .array(zod.enum(['chapter_leader', 'state_director', 'regional_leader']))
+    .array(zod.enum(['chapter_leader', 'state_director', 'regional_director']))
     .min(1, { message: 'At least one title is required!' }), // Now a multi-select array
   referred_by_first_name: zod.string().optional(), // Optional field
   referred_by_last_name: zod.string().optional(), // Optional field
@@ -161,7 +161,7 @@ export function UserNewEditForm({ currentUser, edit = false }: Props) {
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
             <Card sx={{ pt: 3, pb: 5, px: 3 }}>
-              {/* {currentUser && (
+              {currentUser && (
                 <Label
                   color={
                     (values.status === 'active' && 'success') ||
@@ -172,9 +172,9 @@ export function UserNewEditForm({ currentUser, edit = false }: Props) {
                 >
                   {values.status}
                 </Label>
-              )} */}
+              )}
 
-              {/* {currentUser && (
+              {currentUser && (
                 <FormControlLabel
                   labelPlacement="start"
                   control={
@@ -225,7 +225,7 @@ export function UserNewEditForm({ currentUser, edit = false }: Props) {
                   </>
                 }
                 sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
-              /> */}
+              />
 
               {currentUser && (
                 <Stack justifyContent="center" alignItems="center" sx={{ mt: 3 }}>

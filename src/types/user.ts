@@ -6,6 +6,7 @@ export type IUserTableFilters = {
   name: string;
   role?: string[];
   status: string;
+  selectedColumn: string;
 };
 
 export type IUserProfileCover = {

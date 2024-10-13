@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { z as zod } from 'zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -83,16 +84,6 @@ export function SupabaseSignInView() {
       <Field.Text name="email" label="Email address" InputLabelProps={{ shrink: true }} />
 
       <Box gap={1.5} display="flex" flexDirection="column">
-        <Link
-          component={RouterLink}
-          href={paths.auth.supabase.resetPassword}
-          variant="body2"
-          color="inherit"
-          sx={{ alignSelf: 'flex-end' }}
-        >
-          Forgot password?
-        </Link>
-
         <Field.Text
           name="password"
           label="Password"
@@ -109,6 +100,15 @@ export function SupabaseSignInView() {
             ),
           }}
         />
+        <Link
+          component={RouterLink}
+          href={paths.auth.supabase.resetPassword}
+          variant="body2"
+          color="inherit"
+          sx={{ alignSelf: 'flex-end' }}
+        >
+          Forgot password?
+        </Link>
       </Box>
 
       <LoadingButton
@@ -127,16 +127,11 @@ export function SupabaseSignInView() {
 
   return (
     <>
+      <Box display="flex" justifyContent="center" mb={4}>
+        <Image src="/cpm-logo.png" alt="City Press Media Logo" width={250} height={165} />
+      </Box>
       <FormHead
-        title="Sign in to your account"
-        description={
-          <>
-            {`Don’t have an account? `}
-            <Link component={RouterLink} href={paths.auth.supabase.signUp} variant="subtitle2">
-              Get started
-            </Link>
-          </>
-        }
+        title="Sign in to the CPM Admin Dashboard"
         sx={{ textAlign: { xs: 'center', md: 'left' } }}
       />
 

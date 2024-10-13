@@ -52,7 +52,7 @@ export function AuthCenteredLayout({ sx, children, header }: AuthCenteredLayoutP
             leftArea: (
               <>
                 {/* -- Logo -- */}
-                <Logo />
+                {/* <Logo /> */}
               </>
             ),
             rightArea: (
