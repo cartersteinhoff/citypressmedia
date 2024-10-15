@@ -1,20 +1,31 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client'; // Blank line to separate import groups
+import { NextResponse } from 'next/server';
+import mysql from 'mysql2/promise';
 
-const prisma = new PrismaClient();
+// Create a connection pool to the MySQL database
+const pool = mysql.createPool({
+  host: process.env.LCD_MYSQL_HOST,
+  user: process.env.LCD_MYSQL_USER,
+  password: process.env.LCD_MYSQL_PASSWORD,
+  database: process.env.LCD_MYSQL_DATABASE,
+});
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+// Handle GET request for chapter leader count
+export async function GET(request: Request) {
+  console.log('Fetching chapter leader count...');
   try {
-    console.log('Fetching chapter leader count...');
-    const chapterLeaderCount = await prisma.chapter_leaders.count();
+    const connection = await pool.getConnection();
+    const [rows] = await connection.execute('SELECT COUNT(*) AS count FROM chapter_leaders');
+    connection.release();
+
+    const chapterLeaderCount = rows[0].count;
     console.log('Chapter leader count fetched:', chapterLeaderCount);
 
-    return res.status(200).json({ chapterLeaderCount });
+    return NextResponse.json({ chapterLeaderCount });
   } catch (error) {
     console.error('Error fetching chapter leader count:', error);
-    return res.status(500).json({
-      message: 'Error getting Chapter Leader count',
-      error: (error as Error).message,
-    });
+    return NextResponse.json(
+      { message: 'Error fetching chapter leader count', error: (error as Error).message },
+      { status: 500 }
+    );
   }
 }
