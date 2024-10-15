@@ -64,7 +64,7 @@ export const navData = [
     subheader: 'Management',
     items: [
       {
-        title: 'Chapter Leaders',
+        title: 'CPM Chapter Leaders',
         path: paths.dashboard.chapterLeader.root,
         icon: ICONS.user,
         children: [
@@ -76,6 +76,45 @@ export const navData = [
           // { title: 'Account', path: paths.dashboard.user.account },
         ],
       },
+      {
+        title: 'CPM Partners',
+        path: paths.dashboard.partner.root,
+        icon: ICONS.user,
+        children: [
+          // { title: 'Profile', path: paths.dashboard.user.root },
+          // { title: 'Cards', path: paths.dashboard.user.cards },
+          { title: 'List', path: paths.dashboard.partner.list },
+          { title: 'Create', path: paths.dashboard.partner.new },
+          // { title: 'Edit', path: paths.dashboard.user.demo.edit },
+          // { title: 'Account', path: paths.dashboard.user.account },
+        ],
+      },
+      {
+        title: 'Restaurant Testimonials',
+        path: paths.dashboard.testimonial.root,
+        icon: ICONS.file,
+        children: [
+          // { title: 'Profile', path: paths.dashboard.user.root },
+          // { title: 'Cards', path: paths.dashboard.user.cards },
+          { title: 'List', path: paths.dashboard.testimonial.list },
+          { title: 'Create', path: paths.dashboard.testimonial.new },
+          // { title: 'Edit', path: paths.dashboard.user.demo.edit },
+          // { title: 'Account', path: paths.dashboard.user.account },
+        ],
+      },
+      // {
+      //   title: 'Chapter Leaders',
+      //   path: paths.dashboard.chapterLeader.root,
+      //   icon: ICONS.user,
+      //   children: [
+      //     // { title: 'Profile', path: paths.dashboard.user.root },
+      //     // { title: 'Cards', path: paths.dashboard.user.cards },
+      //     { title: 'List', path: paths.dashboard.chapterLeader.list },
+      //     { title: 'Create', path: paths.dashboard.chapterLeader.new },
+      //     // { title: 'Edit', path: paths.dashboard.user.demo.edit },
+      //     // { title: 'Account', path: paths.dashboard.user.account },
+      //   ],
+      // },
       // {
       //   title: 'Partners',
       //   path: paths.dashboard.user.root,

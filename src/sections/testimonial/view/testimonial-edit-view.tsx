@@ -9,7 +9,7 @@ import { DashboardContent } from 'src/layouts/dashboard';
 
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
-import { UserNewEditForm } from '../user-new-edit-form';
+// import { TestimonialNewEditForm } from '../testimonial-new-edit-form';
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +32,6 @@ export function UserEditView({ user: currentUser }: Props) {
         : currentUser.reserved_states
           ? [currentUser.reserved_states]
           : [], // Ensure it's an array
-      status: (['active', 'banned', 'pending'].includes(currentUser.status) ? currentUser.status : 'pending') as 'active' | 'banned' | 'pending', // Ensure status is one of the allowed values
     }),
     [currentUser]
   );
@@ -49,7 +48,7 @@ export function UserEditView({ user: currentUser }: Props) {
         sx={{ mb: { xs: 3, md: 5 } }}
       />
 
-      <UserNewEditForm currentUser={formattedCurrentUser} edit />
+      {/* <TestimonialNewEditForm currentUser={formattedCurrentUser} edit /> */}
     </DashboardContent>
   );
 }

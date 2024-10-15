@@ -148,6 +148,30 @@ export const paths = {
         edit: `${ROOTS.DASHBOARD}/chapter-leader/${MOCK_ID}/edit`,
       },
     },
+    testimonial: {
+      root: `${ROOTS.DASHBOARD}/testimonial`,
+      new: `${ROOTS.DASHBOARD}/testimonial/new`,
+      list: `${ROOTS.DASHBOARD}/testimonial/list`,
+      cards: `${ROOTS.DASHBOARD}/testimonial/cards`,
+      profile: `${ROOTS.DASHBOARD}/testimonial/profile`,
+      account: `${ROOTS.DASHBOARD}/testimonial/account`,
+      edit: (id: string) => `${ROOTS.DASHBOARD}/testimonial/${id}/edit`,
+      demo: {
+        edit: `${ROOTS.DASHBOARD}/testimonial/${MOCK_ID}/edit`,
+      },
+    },
+    partner: {
+      root: `${ROOTS.DASHBOARD}/partner`,
+      new: `${ROOTS.DASHBOARD}/partner/new`,
+      list: `${ROOTS.DASHBOARD}/partner/list`,
+      cards: `${ROOTS.DASHBOARD}/partner/cards`,
+      profile: `${ROOTS.DASHBOARD}/partner/profile`,
+      account: `${ROOTS.DASHBOARD}/partner/account`,
+      edit: (id: string) => `${ROOTS.DASHBOARD}/partner/${id}/edit`,
+      demo: {
+        edit: `${ROOTS.DASHBOARD}/partner/${MOCK_ID}/edit`,
+      },
+    },
     // partner: {
     //   root: `${ROOTS.DASHBOARD}/user`,
     //   new: `${ROOTS.DASHBOARD}/user/new`,

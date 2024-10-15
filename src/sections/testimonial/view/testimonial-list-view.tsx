@@ -1,12 +1,10 @@
 'use client';
 
-import type { IUserItem, IUserTableFilters } from 'src/types/user';
+// import type { IUserItem, IUserTableFilters } from 'src/types/user';
 
 import { useState, useEffect, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
@@ -22,10 +20,8 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
 
 import { varAlpha } from 'src/theme/styles';
-import { USER_STATUS_OPTIONS } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
 
-import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
@@ -43,29 +39,21 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 
-import { UserTableRow } from '../user-table-row';
-import { UserTableToolbar } from '../user-table-toolbar';
-import { UserTableFiltersResult } from '../user-table-filters-result';
+import { TestimonialTableRow } from '../testimonial-table-row';
+import { TestimonialTableToolbar } from '../testimonial-table-toolbar';
+import { TestimonialTableFiltersResult } from '../testimonial-table-filters-result';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
-
 const TABLE_HEAD = [
-  { id: 'first_name', label: 'Name', minWidth: 150, maxWidth: 300 }, // Use min/max width for email column
-  { id: 'phoneNumber', label: 'Phone Number', minWidth: 150, maxWidth: 200 },
-  { id: 'city', label: 'City', minWidth: 150, maxWidth: 200 },
-  { id: 'state', label: 'State', minWidth: 150, maxWidth: 200 },
-  { id: '', width: 88 }, // For actions like edit/delete
+  { id: 'first_name', label: 'Name', minWidth: 150, maxWidth: 300 },
+  { id: 'user_city_state', label: 'City, State', minWidth: 150, maxWidth: 300 },
+  { id: 'restaurant', label: 'Restaurant', minWidth: 150, maxWidth: 300 },
+  { id: 'timestamp', label: 'Added', minWidth: 100, maxWidth: 300 },
+  { id: '', width: 88 },
 ];
 
-const columns = [
-  { value: 'first_name', label: 'First Name' },
-  { value: 'last_name', label: 'Last Name' },
-  { value: 'email', label: 'Email' },
-  { value: 'city', label: 'City' },
-  { value: 'state', label: 'State' },
-];
+const columns = [{ value: 'first_name', label: 'First Name' }];
 
 // ----------------------------------------------------------------------
 type DashboardType = keyof typeof paths.dashboard;
@@ -73,19 +61,19 @@ interface DashboardTypeProps {
   type?: DashboardType;
 }
 
-export function UserListView({ type }: DashboardTypeProps) {
+export function TestimonialListView({ type }: DashboardTypeProps) {
   const [leaders, setLeaders] = useState([]);
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
     async function fetchLeaders() {
       try {
-        const res = await fetch('/api/chapter-leader');
+        const res = await fetch('/api/testimonial');
         if (!res.ok) throw new Error('Failed to fetch data');
         const data = await res.json();
         setLeaders(data);
       } catch (error) {
-        console.error('Error fetching chapter leaders:', error);
+        console.error('Error fetching testimonials:', error);
       }
     }
 
@@ -101,9 +89,8 @@ export function UserListView({ type }: DashboardTypeProps) {
   const table = useTable();
   const router = useRouter();
   const confirm = useBoolean();
-  const filters = useSetState<IUserTableFilters>({
+  const filters = useSetState({
     name: '',
-    status: 'all',
     selectedColumn: 'first_name', // Default column to filter by
   });
 
@@ -115,19 +102,19 @@ export function UserListView({ type }: DashboardTypeProps) {
 
   const dataInPage = rowInPage(dataFiltered, table.page, table.rowsPerPage);
 
-  const canReset = !!filters.state.name || filters.state.status !== 'all';
+  const canReset = !!filters.state.name;
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
   const handleDeleteRow = useCallback(
     async (id: string) => {
       try {
-        const res = await fetch(`/api/chapter-leader/?id=${id}`, {
+        const res = await fetch(`/api/testimonial/?id=${id}`, {
           method: 'DELETE',
         });
 
         if (!res.ok) {
-          throw new Error('Failed to delete chapter leader');
+          throw new Error('Failed to delete testimonial');
         }
 
         const deleteRow = tableData.filter((row) => row.id !== id);
@@ -136,7 +123,7 @@ export function UserListView({ type }: DashboardTypeProps) {
         table.onUpdatePageDeleteRow(dataInPage.length);
       } catch (error) {
         toast.error('Failed to delete');
-        console.error('Error deleting chapter leader:', error);
+        console.error('Error deleting testimonial:', error);
       }
     },
     [dataInPage.length, table, tableData]
@@ -146,14 +133,14 @@ export function UserListView({ type }: DashboardTypeProps) {
     try {
       const res = await Promise.all(
         table.selected.map((id) =>
-          fetch(`/api/chapter-leader/delete?id=${id}`, {
+          fetch(`/api/testimonial/delete?id=${id}`, {
             method: 'DELETE',
           })
         )
       );
 
       if (res.some((r) => !r.ok)) {
-        throw new Error('Failed to delete some chapter leaders');
+        throw new Error('Failed to delete some testimonials');
       }
 
       const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
@@ -166,7 +153,7 @@ export function UserListView({ type }: DashboardTypeProps) {
       });
     } catch (error) {
       toast.error('Failed to delete selected');
-      console.error('Error deleting selected chapter leaders:', error);
+      console.error('Error deleting selected testimonials:', error);
     }
   }, [dataFiltered.length, dataInPage.length, table, tableData]);
 
@@ -184,14 +171,6 @@ export function UserListView({ type }: DashboardTypeProps) {
     [router, type] // Add 'type' to the dependency array
   );
 
-  const handleFilterStatus = useCallback(
-    (event: React.SyntheticEvent, newValue: string) => {
-      table.onResetPage();
-      filters.setState({ status: newValue });
-    },
-    [filters, table]
-  );
-
   return (
     <>
       <DashboardContent>
@@ -199,7 +178,7 @@ export function UserListView({ type }: DashboardTypeProps) {
           heading="List"
           links={[
             { name: 'Dashboard', href: paths.dashboard.root },
-            { name: 'User', href: (paths.dashboard as any)[type]?.root },
+            { name: 'Testimonial', href: (paths.dashboard as any)[type]?.root },
             { name: 'List' },
           ]}
           action={
@@ -209,14 +188,14 @@ export function UserListView({ type }: DashboardTypeProps) {
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
-              New user
+              New Testimonial
             </Button>
           }
           sx={{ mb: { xs: 3, md: 5 } }}
         />
 
         <Card>
-          <Tabs
+          {/* <Tabs
             value={filters.state.status}
             onChange={handleFilterStatus}
             sx={{
@@ -251,9 +230,9 @@ export function UserListView({ type }: DashboardTypeProps) {
                 }
               />
             ))}
-          </Tabs>
+          </Tabs> */}
 
-          <UserTableToolbar
+          <TestimonialTableToolbar
             filters={filters}
             onResetPage={table.onResetPage}
             columns={columns}
@@ -261,7 +240,7 @@ export function UserListView({ type }: DashboardTypeProps) {
           />
 
           {canReset && (
-            <UserTableFiltersResult
+            <TestimonialTableFiltersResult
               filters={filters}
               totalResults={dataFiltered.length}
               onResetPage={table.onResetPage}
@@ -313,7 +292,7 @@ export function UserListView({ type }: DashboardTypeProps) {
                       table.page * table.rowsPerPage + table.rowsPerPage
                     )
                     .map((row) => (
-                      <UserTableRow
+                      <TestimonialTableRow
                         key={row.id}
                         row={row}
                         selected={table.selected.includes(row.id)}
@@ -374,13 +353,13 @@ export function UserListView({ type }: DashboardTypeProps) {
 
 // ----------------------------------------------------------------------
 
-type ApplyFilterProps = {
-  inputData: IUserItem[];
-  filters: IUserTableFilters;
-  comparator: (a: any, b: any) => number;
-};
+// type ApplyFilterProps = {
+//   inputData: IUserItem[];
+//   filters: IUserTableFilters;
+//   comparator: (a: any, b: any) => number;
+// };
 
-function applyFilter({ inputData, comparator, filters }: ApplyFilterProps) {
+function applyFilter({ inputData, comparator, filters }: any) {
   const { name, selectedColumn, status } = filters;
 
   let filteredData = inputData;
@@ -391,11 +370,6 @@ function applyFilter({ inputData, comparator, filters }: ApplyFilterProps) {
       const fieldValue = user[selectedColumn]?.toString().toLowerCase();
       return fieldValue?.includes(name.toLowerCase());
     });
-  }
-
-  // Filter by status if needed
-  if (status !== 'all') {
-    filteredData = filteredData.filter((user) => user.status === status);
   }
 
   // Apply sorting

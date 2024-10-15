@@ -10,7 +10,7 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Switch from '@mui/material/Switch';
-import Grid from '@mui/material/Grid'; // Changed to use stable Grid
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -40,8 +40,7 @@ const titleOptions = [
 
 // Form schema validation using Zod
 export const NewUserSchema = zod.object({
-  id: zod.string().optional(), // ID field is optional
-  status: zod.string().optional(),
+  id: zod.string().optional(), // Add the id property
   first_name: zod.string().min(1, { message: 'First Name is required!' }),
   last_name: zod.string().min(1, { message: 'Last Name is required!' }),
   email: zod
@@ -52,19 +51,17 @@ export const NewUserSchema = zod.object({
   city: zod.string().min(1, { message: 'City is required!' }),
   state: zod.string().min(1, { message: 'State is required!' }),
   address1: zod.string().min(1, { message: 'Address is required!' }),
-  address2: zod.string().optional(), // Optional field
+  address2: zod.string().optional(),
   zip: zod.string().min(1, { message: 'Zip code is required!' }),
-  reserved_cities: zod
-    .array(zod.string())
-    .min(1, { message: 'At least one Reserved City is required!' }), // Updated to array validation
-  reserved_states: zod
-    .array(zod.string())
-    .min(1, { message: 'At least one Reserved State is required!' }), // Updated to array validation
   title: zod
     .array(zod.enum(['chapter_leader', 'state_director', 'regional_director']))
-    .min(1, { message: 'At least one title is required!' }), // Now a multi-select array
-  referred_by_first_name: zod.string().optional(), // Optional field
-  referred_by_last_name: zod.string().optional(), // Optional field
+    .min(1, { message: 'At least one title is required!' })
+    .optional(),
+  reserved_cities: zod.array(zod.string()).optional(),
+  reserved_states: zod.array(zod.string()).optional(),
+  referred_by_first_name: zod.string().optional(),
+  referred_by_last_name: zod.string().optional(),
+  status: zod.enum(['active', 'banned', 'pending']).optional(),
 });
 
 export type NewUserSchemaType = zod.infer<typeof NewUserSchema>;
@@ -72,6 +69,7 @@ export type NewUserSchemaType = zod.infer<typeof NewUserSchema>;
 type Props = {
   currentUser?: NewUserSchemaType;
   edit?: boolean;
+  title?: ('chapter_leader' | 'state_director' | 'regional_director')[];
 };
 
 export function UserNewEditForm({ currentUser, edit = false }: Props) {
@@ -84,13 +82,13 @@ export function UserNewEditForm({ currentUser, edit = false }: Props) {
       email: currentUser?.email || '',
       phone: currentUser?.phone || '',
       city: currentUser?.city || '',
-      reserved_cities: currentUser?.reserved_cities || [], // Now an array
-      reserved_states: currentUser?.reserved_states || [], // Now an array
+      reserved_cities: currentUser?.reserved_cities || [],
+      reserved_states: currentUser?.reserved_states || [],
       state: currentUser?.state || '',
       address1: currentUser?.address1 || '',
       address2: currentUser?.address2 || '',
       zip: currentUser?.zip || '',
-      title: currentUser?.title || [], // Multi-select for title
+      title: currentUser?.title || [],
       referred_by_first_name: currentUser?.referred_by_first_name || '',
       referred_by_last_name: currentUser?.referred_by_last_name || '',
     }),
@@ -117,12 +115,9 @@ export function UserNewEditForm({ currentUser, edit = false }: Props) {
   const [newState, setNewState] = useState(''); // State for custom state input
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(methods.formState.errors);
-    console.log(data);
+    console.log('Submitting form data: ', data); // Check if this log appears
     try {
-      const endpoint = edit
-        ? `/api/update-chapter-leader/${currentUser?.id}`
-        : '/api/create-chapter-leader';
+      const endpoint = edit ? `/api/chapter-leader/?id=${currentUser?.id}` : '/api/chapter-leader';
       const method = edit ? 'PUT' : 'POST';
 
       const response = await fetch(endpoint, {
@@ -139,12 +134,12 @@ export function UserNewEditForm({ currentUser, edit = false }: Props) {
         router.push(paths.dashboard.chapterLeader.list); // Redirect after success
       } else {
         const errorData = await response.json();
-        console.log(errorData);
+        console.log('Error data: ', errorData);
         toast.error(errorData.message || 'An error occurred');
       }
     } catch (error) {
+      console.error('Submit error: ', error);
       toast.error(edit ? 'Failed to update chapter leader' : 'Failed to create chapter leader');
-      console.error(error);
     }
   });
 
@@ -152,9 +147,7 @@ export function UserNewEditForm({ currentUser, edit = false }: Props) {
     <Box
       sx={{
         display: 'flex',
-        // justifyContent: 'center',
         alignItems: 'center',
-        // minHeight: '100vh', // Ensure it takes full height
       }}
     >
       <Form methods={methods} onSubmit={onSubmit}>

@@ -14,8 +14,7 @@ export default async function Page({ params }: Props) {
   const { id } = params;
 
   // Fetch user data from the relative API endpoint
-  const response = await fetch(`/api/get-single-chapter-leader/${id}`);
-  console.log(response);
+  const response = await fetch(`/api/chapter-leader/?id=${id}`);
 
   if (!response.ok) {
     return <p>Error fetching user data</p>;
