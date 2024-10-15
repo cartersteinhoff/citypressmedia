@@ -1,4 +1,4 @@
-import type { IPartnerTableFilters } from 'src/types/partner';
+// import type { IPartnerTableFilters } from 'src/types/partner';
 
 import type { Theme, SxProps } from '@mui/material/styles';
 import type { UseSetStateReturn } from 'src/hooks/use-set-state';
@@ -15,7 +15,7 @@ type Props = {
   totalResults: number;
   sx?: SxProps<Theme>;
   onResetPage: () => void;
-  filters: UseSetStateReturn<IPartnerTableFilters>;
+  filters: UseSetStateReturn<{ name: string; selectedColumn: string }>;
 };
 
 export function PartnerTableFiltersResult({ filters, onResetPage, totalResults, sx }: Props) {
