@@ -1,4 +1,4 @@
-import type { IPartnerTableFilters } from '../../types/partner';
+import type { IPartnerTableFilters } from 'src/types/partner';
 
 import type { Theme, SxProps } from '@mui/material/styles';
 import type { UseSetStateReturn } from 'src/hooks/use-set-state';
