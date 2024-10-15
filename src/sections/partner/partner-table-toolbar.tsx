@@ -1,4 +1,4 @@
-import type { IPartnerTableFilters } from 'src/types/partner';
+// import type { IPartnerTableFilters } from 'src/types/partner';
 import type { UseSetStateReturn } from 'src/hooks/use-set-state';
 
 import { useCallback } from 'react';
@@ -16,7 +16,7 @@ import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
 type Props = {
   onResetPage: () => void;
-  filters: UseSetStateReturn<IPartnerTableFilters>;
+  filters: UseSetStateReturn<{ name: string; selectedColumn: string }>;
   columns: { label: string; value: string }[]; // List of available columns to filter by
 };
 
