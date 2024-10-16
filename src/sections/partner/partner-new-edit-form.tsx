@@ -52,6 +52,7 @@ export const NewPartnerSchema = zod.object({
     .optional(),
   referred_by_first_name: zod.string().optional(),
   referred_by_last_name: zod.string().optional(),
+  status: zod.string().optional(), // Add status to the schema
 });
 
 export type NewPartnerSchemaType = zod.infer<typeof NewPartnerSchema>;
