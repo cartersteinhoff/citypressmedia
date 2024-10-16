@@ -1,6 +1,6 @@
 import { CONFIG } from 'src/config-global';
 
-import { PartnerCreateView } from 'src/sections/Partner/view';
+import { PartnerCreateView } from 'src/sections/partner/view';
 
 // ----------------------------------------------------------------------
 
