@@ -46,7 +46,9 @@ import { PartnerTableFiltersResult } from '../partner-table-filters-result';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'display_name', label: 'Display Name', minWidth: 150, maxWidth: 300 },
+  { id: 'name', label: 'Name', minWidth: 150, maxWidth: 300 },
+  { id: 'phone', label: 'Phone', minWidth: 150, maxWidth: 300 },
+  { id: 'city_state', label: 'City, State', minWidth: 150, maxWidth: 300 },
   { id: '', width: 88 },
 ];
 

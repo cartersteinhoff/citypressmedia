@@ -38,7 +38,7 @@ export function PartnerTableRow({ row, selected, onEditRow, onSelectRow, onDelet
   const quickEdit = useBoolean();
 
   // Use the fields from the IUserItem (Chapter Leader) model
-  const { display_name } = row;
+  const { first_name, last_name, email, city, state, phone } = row;
   console.log(row);
 
   return (
@@ -56,19 +56,20 @@ export function PartnerTableRow({ row, selected, onEditRow, onSelectRow, onDelet
             {/* <Avatar alt={`${first_name} ${last_name}`} /> */}
             <Stack sx={{ typography: 'body2', flex: '1 1 auto', alignItems: 'flex-start' }}>
               <Link color="inherit" onClick={onEditRow} sx={{ cursor: 'pointer' }}>
-                {/* {`${display_name} ${user_last_name}`} */}
-                {display_name}
+                {`${first_name} ${last_name}`}
               </Link>
               <Box component="span" sx={{ color: 'text.disabled' }}>
-                {/* {user_email} */}
+                {email}
               </Box>
             </Stack>
           </Stack>
         </TableCell>
 
-        {/* <TableCell sx={{ whiteSpace: 'nowrap' }}>
-          {user_city}, {user_state}
-        </TableCell> */}
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{phone}</TableCell>
+
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>
+          {city}, {state}
+        </TableCell>
 
         {/* Actions: Quick Edit and More Options */}
         <TableCell>

@@ -32,7 +32,7 @@ export async function GET(request: Request) {
     }
 
     // Otherwise, fetch all chapter leaders
-    const result = await client.query('SELECT * FROM chapter_leaders');
+    const result = await client.query('SELECT * FROM chapter_leaders ORDER BY first_name ASC');
     client.release();
     return NextResponse.json(result.rows);
   } catch (error) {

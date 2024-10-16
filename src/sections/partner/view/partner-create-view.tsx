@@ -6,24 +6,24 @@ import { DashboardContent } from 'src/layouts/dashboard';
 
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
-// import { PartnerNewEditForm } from '../partner-new-edit-form';
+import { PartnerNewEditForm } from '../partner-new-edit-form';
 
 // ----------------------------------------------------------------------
 
-export function UserCreateView() {
+export function PartnerCreateView() {
   return (
     <DashboardContent>
       <CustomBreadcrumbs
-        heading="Create a new user"
+        heading="Create a new partner"
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
-          { name: 'User', href: paths.dashboard.chapterLeader.root },
-          { name: 'New user' },
+          { name: 'Partner', href: paths.dashboard.partner.root },
+          { name: 'New partner' },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
 
-      {/* <PartnerNewEditForm /> */}
+      <PartnerNewEditForm />
     </DashboardContent>
   );
 }
