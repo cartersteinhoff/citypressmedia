@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
-import mysql from 'mysql2/promise';
+import { Pool } from 'pg';
 
-// Create a connection pool to the MySQL database
-const pool = mysql.createPool({
-  host: process.env.LCD_MYSQL_HOST,
-  user: process.env.LCD_MYSQL_USER,
-  password: process.env.LCD_MYSQL_PASSWORD,
-  database: process.env.LCD_MYSQL_DATABASE,
+// Create a connection pool to the PostgreSQL database
+const pool = new Pool({
+  host: process.env.CPM_PG_HOST,
+  user: process.env.CPM_PG_USER,
+  password: process.env.CPM_PG_PASSWORD,
+  database: process.env.CPM_PG_DATABASE,
+  // port: process.env.CPM_PG_PORT, // Optional: Include port if required
 });
 
 // Handle GET request
@@ -16,26 +17,26 @@ export async function GET(request: Request) {
   const id = searchParams.get('id');
 
   try {
-    const connection = await pool.getConnection();
+    const client = await pool.connect();
 
     if (id) {
       // If "id" is provided, fetch a single chapter leader
-      const [rows] = await connection.execute('SELECT * FROM chapter_leaders WHERE id = ?', [
+      const result = await client.query('SELECT * FROM chapter_leaders WHERE id = $1', [
         parseInt(id, 10),
       ]);
-      connection.release();
+      client.release();
 
-      if ((rows as any[]).length === 0) {
+      if (result.rows.length === 0) {
         return NextResponse.json({ message: 'Chapter leader not found' }, { status: 404 });
       }
 
-      return NextResponse.json((rows as any[])[0]);
+      return NextResponse.json(result.rows[0]);
     }
 
     // Otherwise, fetch all chapter leaders
-    const [rows] = await connection.execute('SELECT * FROM chapter_leaders');
-    connection.release();
-    return NextResponse.json(rows);
+    const result = await client.query('SELECT * FROM chapter_leaders');
+    client.release();
+    return NextResponse.json(result.rows);
   } catch (error) {
     console.error('Error fetching chapter leaders:', error);
     return NextResponse.json(
@@ -48,10 +49,15 @@ export async function GET(request: Request) {
 // Handle POST request
 export async function POST(request: Request) {
   try {
-    const connection = await pool.getConnection();
+    const client = await pool.connect();
     const body = await request.json();
-    const query = `INSERT INTO chapter_leaders (first_name, last_name, email, phone, address1, address2, city, state, zip, reserved_cities, reserved_states, referred_by_first_name, referred_by_last_name, title)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const query = `
+      INSERT INTO chapter_leaders (
+        first_name, last_name, email, phone, address1, address2, city, state, zip, reserved_cities, reserved_states, 
+        referred_by_first_name, referred_by_last_name, title
+      ) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) 
+      RETURNING id`;
     const values = [
       body.first_name,
       body.last_name,
@@ -69,11 +75,11 @@ export async function POST(request: Request) {
       body.title,
     ];
 
-    const [result] = await connection.execute(query, values);
-    connection.release();
+    const result = await client.query(query, values);
+    client.release();
 
     return NextResponse.json(
-      { message: 'Chapter leader created successfully', leader: (result as any).insertId },
+      { message: 'Chapter leader created successfully', leader: result.rows[0].id },
       { status: 201 }
     );
   } catch (error) {
@@ -95,9 +101,14 @@ export async function PUT(request: Request) {
   }
 
   try {
-    const connection = await pool.getConnection();
+    const client = await pool.connect();
     const body = await request.json();
-    const query = `UPDATE chapter_leaders SET first_name = ?, last_name = ?, email = ?, phone = ?, address1 = ?, address2 = ?, city = ?, state = ?, zip = ?, reserved_cities = ?, reserved_states = ?, referred_by_first_name = ?, referred_by_last_name = ?, title = ? WHERE id = ?`;
+    const query = `
+      UPDATE chapter_leaders SET 
+        first_name = $1, last_name = $2, email = $3, phone = $4, address1 = $5, address2 = $6, city = $7, 
+        state = $8, zip = $9, reserved_cities = $10, reserved_states = $11, referred_by_first_name = $12, 
+        referred_by_last_name = $13, title = $14 
+      WHERE id = $15`;
     const values = [
       body.first_name,
       body.last_name,
@@ -116,12 +127,12 @@ export async function PUT(request: Request) {
       parseInt(id, 10),
     ];
 
-    const [result] = await connection.execute(query, values);
-    connection.release();
+    const result = await client.query(query, values);
+    client.release();
 
     return NextResponse.json({
       message: 'Chapter leader updated successfully',
-      affectedRows: (result as any).affectedRows,
+      affectedRows: result.rowCount,
     });
   } catch (error) {
     console.error('Error updating chapter leader:', error);
@@ -142,15 +153,15 @@ export async function DELETE(request: Request) {
   }
 
   try {
-    const connection = await pool.getConnection();
-    const [result] = await connection.execute('DELETE FROM chapter_leaders WHERE id = ?', [
+    const client = await pool.connect();
+    const result = await client.query('DELETE FROM chapter_leaders WHERE id = $1', [
       parseInt(id, 10),
     ]);
-    connection.release();
+    client.release();
 
     return NextResponse.json({
       message: 'Chapter leader deleted successfully',
-      affectedRows: (result as any).affectedRows,
+      affectedRows: result.rowCount,
     });
   } catch (error) {
     console.error('Error deleting chapter leader:', error);
