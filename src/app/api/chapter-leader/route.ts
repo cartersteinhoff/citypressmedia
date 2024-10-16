@@ -5,7 +5,7 @@ import { Pool } from 'pg';
 // Create a connection pool to the PostgreSQL database using the connection string from the environment variable
 const pool = new Pool({
   connectionString: process.env.CPM_PG_CONN_STRING,
-  ssl: { rejectUnauthorized: false }, // Optional: Use if connecting to a cloud-hosted database (e.g., Heroku, AWS)
+  // ssl: { rejectUnauthorized: false }, // Optional: Use if connecting to a cloud-hosted database (e.g., Heroku, AWS)
 });
 
 // Handle GET request
