@@ -2,12 +2,10 @@ import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
 
 // Create a connection pool to the PostgreSQL database
+// Create a connection pool to the PostgreSQL database using the connection string from the environment variable
 const pool = new Pool({
-  host: process.env.CPM_PG_HOST,
-  user: process.env.CPM_PG_USER,
-  password: process.env.CPM_PG_PASSWORD,
-  database: process.env.CPM_PG_DATABASE,
-  // port: process.env.CPM_PG_PORT, // Optional: Include port if required
+  connectionString: process.env.CPM_PG_CONN_STRING,
+  ssl: { rejectUnauthorized: false }, // Optional: Use if connecting to a cloud-hosted database (e.g., Heroku, AWS)
 });
 
 // Handle GET request
