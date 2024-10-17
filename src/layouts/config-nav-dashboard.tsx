@@ -97,7 +97,7 @@ export const navData = [
           // { title: 'Profile', path: paths.dashboard.user.root },
           // { title: 'Cards', path: paths.dashboard.user.cards },
           { title: 'List', path: paths.dashboard.testimonial.list },
-          { title: 'Create', path: paths.dashboard.testimonial.new },
+          // { title: 'Create', path: paths.dashboard.testimonial.new },
           // { title: 'Edit', path: paths.dashboard.user.demo.edit },
           // { title: 'Account', path: paths.dashboard.user.account },
         ],
