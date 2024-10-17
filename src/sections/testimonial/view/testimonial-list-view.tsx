@@ -62,29 +62,29 @@ interface DashboardTypeProps {
 }
 
 export function TestimonialListView({ type }: DashboardTypeProps) {
-  const [leaders, setLeaders] = useState([]);
+  const [restaurantTestimonials, setRestaurantTestimonials] = useState([]);
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    async function fetchLeaders() {
+    async function fetchRestaurantTestimonials() {
       try {
-        const res = await fetch('/api/testimonial');
+        const res = await fetch('/api/restaurant-testimonial');
         if (!res.ok) throw new Error('Failed to fetch data');
         const data = await res.json();
-        setLeaders(data);
+        setRestaurantTestimonials(data);
       } catch (error) {
         console.error('Error fetching testimonials:', error);
       }
     }
 
-    fetchLeaders();
+    fetchRestaurantTestimonials();
   }, []);
 
   useEffect(() => {
-    if (leaders.length > 0) {
-      setTableData(leaders); // Ensure tableData is updated after leaders are fetched
+    if (restaurantTestimonials.length > 0) {
+      setTableData(restaurantTestimonials); // Ensure tableData is updated after testimonials are fetched
     }
-  }, [leaders]);
+  }, [restaurantTestimonials]);
 
   const table = useTable();
   const router = useRouter();

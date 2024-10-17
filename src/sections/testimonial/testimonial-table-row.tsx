@@ -47,7 +47,7 @@ export function TestimonialTableRow({ row, selected, onEditRow, onSelectRow, onD
     restaurant_city,
     restaurant_state,
     restaurant_name,
-    submission_date,
+    created_at,
   } = row;
   console.log(row);
 
@@ -96,7 +96,7 @@ export function TestimonialTableRow({ row, selected, onEditRow, onSelectRow, onD
         </TableCell>
 
         <TableCell sx={{ whiteSpace: 'nowrap' }}>
-          {new Date(submission_date).toLocaleDateString('en-US')}
+          {new Date(created_at).toLocaleDateString('en-US')}
         </TableCell>
 
         {/* Display phone number */}
