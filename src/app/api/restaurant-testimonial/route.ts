@@ -49,13 +49,34 @@ export async function POST(request: Request) {
   try {
     const client = await pool.connect();
     const body = await request.json();
+
+    // Adjust the query to insert into the correct columns
     const query = `
       INSERT INTO restaurant_testimonials (
-        customer_name, testimonial_text, rating, company_id, created_at
+        user_first_name, user_last_name, user_email, user_city, user_state, user_testimonial,
+        restaurant_name, restaurant_type_of_food, restaurant_street_address, restaurant_city, 
+        restaurant_state, restaurant_zip, restaurant_phone, restaurant_website, company_id, created_at
       ) 
-      VALUES ($1, $2, $3, $4, NOW()) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, NOW()) 
       RETURNING id`;
-    const values = [body.customer_name, body.testimonial_text, body.rating, body.company_id];
+
+    const values = [
+      body.user_first_name,
+      body.user_last_name,
+      body.user_email,
+      body.user_city,
+      body.user_state,
+      body.user_testimonial,
+      body.restaurant_name,
+      body.restaurant_type_of_food,
+      body.restaurant_street_address,
+      body.restaurant_city,
+      body.restaurant_state,
+      body.restaurant_zip,
+      body.restaurant_phone,
+      body.restaurant_website,
+      body.company_id,
+    ];
 
     const result = await client.query(query, values);
     client.release();
@@ -85,14 +106,32 @@ export async function PUT(request: Request) {
   try {
     const client = await pool.connect();
     const body = await request.json();
+
+    // Adjust the query to update the correct columns
     const query = `
       UPDATE restaurant_testimonials SET 
-        customer_name = $1, testimonial_text = $2, rating = $3, company_id = $4, updated_at = NOW() 
-      WHERE id = $5`;
+        user_first_name = $1, user_last_name = $2, user_email = $3, user_city = $4, user_state = $5, 
+        user_testimonial = $6, restaurant_name = $7, restaurant_type_of_food = $8, 
+        restaurant_street_address = $9, restaurant_city = $10, restaurant_state = $11, 
+        restaurant_zip = $12, restaurant_phone = $13, restaurant_website = $14, company_id = $15, 
+        updated_at = NOW() 
+      WHERE id = $16`;
+
     const values = [
-      body.customer_name,
-      body.testimonial_text,
-      body.rating,
+      body.user_first_name,
+      body.user_last_name,
+      body.user_email,
+      body.user_city,
+      body.user_state,
+      body.user_testimonial,
+      body.restaurant_name,
+      body.restaurant_type_of_food,
+      body.restaurant_street_address,
+      body.restaurant_city,
+      body.restaurant_state,
+      body.restaurant_zip,
+      body.restaurant_phone,
+      body.restaurant_website,
       body.company_id,
       parseInt(id, 10),
     ];
