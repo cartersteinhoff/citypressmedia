@@ -24,7 +24,6 @@ import { CheckoutProvider } from 'src/sections/checkout/context';
 import { AuthProvider as JwtAuthProvider } from 'src/auth/context/jwt';
 import { AuthProvider as SupabaseAuthProvider } from 'src/auth/context/supabase';
 
-
 // ----------------------------------------------------------------------
 
 const AuthProvider =
@@ -44,7 +43,7 @@ export const metadata = {
   icons: [
     {
       rel: 'icon',
-      url: `${CONFIG.assetsDir}/favicon.ico`,
+      url: `${CONFIG.assetsDir}/favicon.svg`,
     },
   ],
 };

@@ -9,7 +9,7 @@ import { DashboardContent } from 'src/layouts/dashboard';
 
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
-// import { PartnerNewEditForm } from '../partner-new-edit-form';
+import { PartnerNewEditForm } from '../partner-new-edit-form';
 
 // ----------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ export function PartnerEditView({ user: currentUser }: any) {
 
   return (
     <DashboardContent>
-      {/* <CustomBreadcrumbs
+      <CustomBreadcrumbs
         heading="Edit"
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
@@ -38,7 +38,7 @@ export function PartnerEditView({ user: currentUser }: any) {
         sx={{ mb: { xs: 3, md: 5 } }}
       />
 
-      <PartnerNewEditForm currentUser={formattedCurrentUser} edit /> */}
+      <PartnerNewEditForm currentUser={formattedCurrentUser} edit />
     </DashboardContent>
   );
 }

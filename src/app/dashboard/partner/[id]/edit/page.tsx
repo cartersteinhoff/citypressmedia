@@ -1,5 +1,5 @@
 import { CONFIG } from 'src/config-global';
-import { UserEditView } from 'src/sections/user/view';
+import { PartnerEditView } from 'src/sections/partner/view';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +19,7 @@ export default async function Page({ params }: Props) {
       : 'https://citypressmedia.com'; // Production URL
 
   // Fetch user data from the appropriate API endpoint
-  const response = await fetch(`${baseUrl}/api/chapter-leader/?id=${id}`);
+  const response = await fetch(`${baseUrl}/api/partner/?id=${id}`);
   console.log(18, response);
 
   if (!response.ok) {
@@ -29,7 +29,7 @@ export default async function Page({ params }: Props) {
   const currentUser = await response.json();
   console.log(currentUser);
 
-  return <UserEditView user={currentUser} />;
+  return <PartnerEditView user={currentUser} />;
 }
 
 // ----------------------------------------------------------------------
