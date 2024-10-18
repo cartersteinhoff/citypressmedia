@@ -43,7 +43,7 @@ export const metadata = {
   icons: [
     {
       rel: 'icon',
-      url: `${CONFIG.assetsDir}/favicon.svg`,
+      url: `${CONFIG.assetsDir}/cpm-favicon.svg`,
     },
   ],
 };
